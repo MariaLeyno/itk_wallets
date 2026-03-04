@@ -1,0 +1,22 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd"
+        logicalFilePath="db/changelog.xml">
+    <changeSet id="030-insert-wallets" author="leynom">
+        <insert tableName="wallets">
+            <column name="id">04da073c-41cf-4175-a61d-0e735318f450</column>
+            <column name="user">John Smith</column>
+        </insert>
+        <insert tableName="wallets">
+            <column name="id">60e3f1ec-a54d-4c29-ade8-4de2d799f92f</column>
+            <column name="user">Jack Daw</column>
+        </insert>
+        <insert tableName="wallet_operations">
+            <column name="wallet_id">04da073c-41cf-4175-a61d-0e735318f450</column>
+            <column name="time">now()</column>
+            <column name="operation">DEPOSIT</column>
+            <column name="amount">100.00</column>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
