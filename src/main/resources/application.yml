@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:15432/itk
+    username: itk_admin
+    password: itk_wallets1579
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/changelog.xml
+    liquibase-schema: util

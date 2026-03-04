@@ -1,0 +1,30 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd"
+        logicalFilePath="db/changelog.xml">
+    <changeSet id="021-create-update-amount-trigger" author="leynom">
+        <createProcedure>
+            CREATE OR REPLACE FUNCTION update_wallet_amount() RETURNS trigger
+            LANGUAGE plpgsql
+            AS $$
+            BEGIN
+                UPDATE wallets SET amount = amount + NEW.amount where id = NEW.wallet_id;
+                RETURN NULL;
+            END;
+            $$;
+        </createProcedure>
+        <rollback>
+            DROP FUNCTION update_wallet_amount();
+        </rollback>
+    </changeSet>
+    <changeSet id="022-add-update-wallet-amount-trigger" author="leynom">
+        <sql>
+            DROP TRIGGER IF EXISTS update_amount_on_wallets ON wallet_operations;
+            CREATE TRIGGER update_amount_on_wallets AFTER INSERT ON wallet_operations FOR EACH ROW EXECUTE FUNCTION update_wallet_amount();
+        </sql>
+        <rollback>
+            DROP TRIGGER update_amount_on_wallets ON wallet_operations;
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
